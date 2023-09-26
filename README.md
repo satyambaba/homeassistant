@@ -2,7 +2,7 @@
 I created this repository to share Home Assistant related codes
 
 # 1. Fitness Stats Comparison Card
-A card to compare fitness stats using HA Fitbit or other integrations. In this case, I used the info provided by the official HA  Fitbit integration and a custom Fitbit integration because the official HA Fitbit integration doesn't support multiple accounts. If other fitness integrations provide similar information, sensors can be modified easily.
+A card to compare fitness stats using HA Fitbit or other integrations. In this case, I used the info provided by the official HA Fitbit integration and a custom Fitbit integration because the official HA Fitbit integration doesn't support multiple accounts. If other fitness integrations provide similar information, sensors can be modified easily.
 
 ![scoreboard](https://github.com/satyambaba/homeassistant/assets/6833101/a3d49514-13b7-44f6-81e1-8ce6f0c73efd)
 
@@ -11,6 +11,7 @@ A card to compare fitness stats using HA Fitbit or other integrations. In this c
 - Stars are earned by comparing steps, active hours and sleep hours
 - Winner is decided based on the number of stars earned
 - Individual icons are colored based on sensor values. For example - Step icons are green if steps are greater than 10K, orange if steps are between 3K - 10K and red if steps are less than 3K
+- Even if you only have the official HA Fitbit integration, this card can be easily modified to display the stats only for one person
 
 **1.2 Steps to use**
 - Install cards mentioned in 1.4
