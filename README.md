@@ -2,7 +2,15 @@
 I created this repository to share Home Assistant related codes
 
 # 1. Fitness Stats Comparison Card
-A card to compare fitness stats using fitbit or other integrations
+A card to compare fitness stats using fitbit or other integrations. In this case, I used the info provided by the official HA  Fitbit integration and a custom Fitbit integration because the official HA fitness integration doesn't support multiple accounts. If other fitness integrations provide similar information, sensors can be modified easily.
+
+![scoreboard](https://github.com/satyambaba/homeassistant/assets/6833101/a3d49514-13b7-44f6-81e1-8ce6f0c73efd)
+
+Features
+- This card displays and compares key fitness stats in a concise and organized manner to keep us motivated
+- Stars are earned by comparing steps, active hours and sleep hours
+- Winner is decided based on the number of stars earned
+- Individual icons are colored based on sensor values. For example - Step icons are green if steps are greater than 10K, orange if steps are between 3K - 10K and red if steps are less than 3K
 
 1.1 YAML Code
 ```yaml
@@ -65,7 +73,7 @@ cards:
                 styles:
                   padding: 10px 0px 10px 0px
                 buttons:
-                  - entity: sensor.person1_fitbit_distance
+                  - entity: sensor.person1_distance
                     icon: mdi:map-marker-distance
                     name: |
                       {{states(config.entity) | round(1)}} km
@@ -81,12 +89,12 @@ cards:
                       action: none
                     hold_action:
                       action: none
-                  - entity: sensor.person1_fitbit_steps
+                  - entity: sensor.person1_steps
                     icon: mdi:shoe-sneaker
                     name: >
                       {{"{:,.0f}".format(states(config.entity) | int)}} {% if
-                      (states('sensor.person1_fitbit_steps') | float) >
-                      (states('sensor.steps') | float) %}⭐{% else %}{% endif %}
+                      (states('sensor.person1_steps') | float) >
+                      (states('sensor.person2_steps') | float) %}⭐{% else %}{% endif %}
                     layout: icon_name
                     style:
                       button:
@@ -150,7 +158,7 @@ cards:
                 styles:
                   padding: 10px 0px 10px 0px
                 buttons:
-                  - entity: sensor.person1_fitbit_sleep_efficiency
+                  - entity: sensor.person1_sleep_efficiency
                     icon: >
                       {% if states(config.entity) | float(0) >= 60
                       %}mdi:thumb-up {% else %}mdi:thumb-down{% endif %}
@@ -228,7 +236,7 @@ cards:
                       action: none
                     hold_action:
                       action: none
-                  - entity: sensor.person1_fitbit_resting_heart_rate
+                  - entity: sensor.person1_resting_heart_rate
                     icon: mdi:heart-pulse
                     name: |
                       {{states(config.entity) | replace('unknown', '.')}}
@@ -248,7 +256,7 @@ cards:
                 styles:
                   padding: 15px 0px 0px 0px
                 buttons:
-                  - entity: sensor.person1_fitbit_update_time
+                  - entity: sensor.person1_scoreboard_update_time
                     name: |
                       Updated {{states(config.entity)}} ago
                     layout: name
@@ -306,11 +314,11 @@ cards:
                 styles:
                   padding: 10px 0px 10px 0px
                 buttons:
-                  - entity: sensor.steps
+                  - entity: sensor.person2_steps
                     icon: mdi:shoe-sneaker
                     name: >
-                      {% if (states('sensor.person1_fitbit_steps') | float) <
-                      (states('sensor.steps') | float) %}⭐{% else %}{% endif %}
+                      {% if (states('sensor.person1_steps') | float) <
+                      (states('sensor.person2_steps') | float) %}⭐{% else %}{% endif %}
                       {{"{:,.0f}".format(states(config.entity) | int)}}
                     layout: icon_name
                     style:
@@ -328,7 +336,7 @@ cards:
                       action: none
                     hold_action:
                       action: none
-                  - entity: sensor.distance
+                  - entity: sensor.person2_distance
                     icon: mdi:map-marker-distance
                     name: |
                       {{states(config.entity) | round(1)}} km
@@ -415,7 +423,7 @@ cards:
                       action: none
                     hold_action:
                       action: none
-                  - entity: sensor.sleep_efficiency
+                  - entity: sensor.person2_sleep_efficiency
                     icon: >
                       {% if states(config.entity) | float(0) >= 60
                       %}mdi:thumb-up {% else %}mdi:thumb-down{% endif %}
@@ -443,7 +451,7 @@ cards:
                 styles:
                   padding: 10px 0px 10px 0px
                 buttons:
-                  - entity: sensor.resting_heart_rate
+                  - entity: sensor.person2_resting_heart_rate
                     icon: mdi:heart-pulse
                     name: |
                       {{states(config.entity) | replace('unknown', '.')}}
@@ -489,7 +497,7 @@ cards:
                 styles:
                   padding: 15px 0px 0px 0px
                 buttons:
-                  - entity: sensor.person2_fitbit_update_time
+                  - entity: sensor.person2_scoreboard_update_time
                     name: |
                       Updated {{states(config.entity)}} ago
                     layout: name
@@ -509,8 +517,54 @@ cards:
 - [Paper Buttons Row Card](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
 
-1.3 Description of Sensors
-- sensor.person1_fitness_wins
+1.3 Details about Sensors
+
+- Sensors Provided by the Fitbit Integration which are used (directly or in a template sensor) in this card - Steps, Distance, Minutes Fairly Active, Minutes Lightly Active, Minutes Very Active, Minutes Sedentary, Sleep Efficiency, Minutes Asleep, Resting Heart Rate and Battery
+  
+- Sleep Hours - Template Sensor to calculate sleep hours
+  
+  ```yaml
+    person1_sleep_hours:
+      friendly_name: "Person1 Sleep Hours"
+      value_template: >
+        {{(states('sensor.person1_sleep_minutes_asleep') | float(0) / 60) | round(1)}}
+  ```
+  Please create the same sensor for person2.
+
+- Active Hours - Template Sensor to calculate active hours
+  
+  ```yaml
+    person1_active_hours:
+      friendly_name: "Person1 Active Hours"
+      value_template: >
+        {{((states('sensor.person1_minutes_lightly_active') | float(0) + states('sensor.person1_minutes_fairly_active') | float(0) + states('sensor.person1_minutes_very_active') | float(0)) / 60) | round(1)}}
+  ```
+  Please create the same sensor for person2.
+
+- Inactive Hours - Template Sensor to calculate inactive hours
+  
+  ```yaml
+    person1_inactive_hours:
+      friendly_name: "Person1 Inactive Hours"
+      value_template: >
+        {{(states('sensor.person1_minutes_sedentary') | float(0) / 60) | round(1)}}
+  ```
+  Please create the same sensor for person2.
+
+- Active Hours Percentage - Template Sensor to calculate active hours percentage
+  
+  ```yaml
+    person1_active_hours_percentage:
+      friendly_name: "Person1 Active Hours Percentage"
+      device_class: "battery"
+      unit_of_measurement: "%"
+      value_template: >
+        {{(states('sensor.person1_active_hours') | float * 100 / (states('sensor.person1_active_hours') | float + states('sensor.person1_inactive_hours') | float)) | round(0) }}
+  ```
+  Please create the same sensor for person2.
+
+- Fitness Wins - Template Sensor to store "wins" info based on comparing steps, active hours and sleep hours
+
   ```yaml
     person1_fitness_wins:
       friendly_name: "Person1 Fitness Wins"
@@ -521,11 +575,27 @@ cards:
         (states('sensor.person2_active_hours') | float) %}1{% else %}0{% endif %}{% if
         (states('sensor.person1_sleep_hours') | float) >
         (states('sensor.person2_sleep_hours') | float) %}1{% else %}0{% endif %}
-  ```
-- sensor.person1_fitness_score
+    ```
+    Please create the same sensor for person2.
+
+- Fitness Score - Template Sensor to calculate score based on wins.
+  
   ```yaml
       person1_fitness_score:
       friendly_name: "Person1 Fitness Score"
       value_template: >
         {{((states('sensor.person1_fitness_wins')[0] | int) + (states('sensor.person1_fitness_wins')[1] | int) + (states('sensor.person1_fitness_wins')[2] | int)) | int}}
-```
+  ```
+  Please create the same sensor for person2.
+
+  - Scoreboard Update Time - Template Sensor to calculate the scoreboard last update time.
+  
+  ```yaml
+    person1_scoreboard_update_time:
+      friendly_name: Person1 Scoreboard Update Time
+      value_template: >
+        {% if ((as_timestamp(now())-max(as_timestamp(states.sensor.person1_steps.last_updated),as_timestamp(states.sensor.person1_resting_heart_rate.last_updated),as_timestamp(states.sensor.person1_sleep_minutes_asleep.last_updated),as_timestamp(states.sensor.versa_3_battery.last_updated)))/3600) | float > 1 %}{{(((as_timestamp(now())-max(as_timestamp(states.sensor.person1_steps.last_updated),as_timestamp(states.sensor.person1_resting_heart_rate.last_updated),as_timestamp(states.sensor.person1_sleep_minutes_asleep.last_updated),as_timestamp(states.sensor.versa_3_battery.last_updated)))/3600) | int)}}h
+        {% else %}{% endif %}{{(((((as_timestamp(now())-max(as_timestamp(states.person1_fitbit_steps.last_updated),as_timestamp(states.sensor.person1_resting_heart_rate.last_updated),as_timestamp(states.sensor.person1_sleep_minutes_asleep.last_updated),as_timestamp(states.sensor.versa_3_battery.last_updated)))/3600) | float)-(((as_timestamp(now())-max(as_timestamp(states.sensor.person1_steps.last_updated),as_timestamp(states.sensor.person1_resting_heart_rate.last_updated),as_timestamp(states.sensor.person1_sleep_minutes_asleep.last_updated),as_timestamp(states.sensor.versa_3_battery.last_updated)))/3600) | int))*60) | round(0)}}m
+
+  ```
+  Please create the same sensor for person2.
