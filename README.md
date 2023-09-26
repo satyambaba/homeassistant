@@ -2,7 +2,7 @@
 I created this repository to share Home Assistant related codes
 
 # 1. Fitness Stats Comparison Card
-A card to compare fitness stats using fitbit or other integrations. In this case, I used the info provided by the official HA  Fitbit integration and a custom Fitbit integration because the official HA Fitbit integration doesn't support multiple accounts. If other fitness integrations provide similar information, sensors can be modified easily.
+A card to compare fitness stats using HA Fitbit or other integrations. In this case, I used the info provided by the official HA  Fitbit integration and a custom Fitbit integration because the official HA Fitbit integration doesn't support multiple accounts. If other fitness integrations provide similar information, sensors can be modified easily.
 
 ![scoreboard](https://github.com/satyambaba/homeassistant/assets/6833101/a3d49514-13b7-44f6-81e1-8ce6f0c73efd)
 
