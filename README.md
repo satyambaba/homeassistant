@@ -16,7 +16,7 @@ A card to compare fitness stats using HA Fitbit or other integrations. In this c
 **1.2 Steps to use**
 - Install cards mentioned in 1.4
 - Create template sensors mentioned in 1.5
-- Use YAML code mention in 1.3
+- Use YAML code mentioned in 1.3
   
 **1.3 YAML Code for the Card**
 ```yaml
