@@ -524,7 +524,7 @@ cards:
 
 **1.5 Details about Sensors**
 
-- Sensors Provided by the official HA Fitbit Integration which are used (directly or in a template sensor) in this card - Steps, Distance, Minutes Fairly Active, Minutes Lightly Active, Minutes Very Active, Minutes Sedentary, Sleep Efficiency, Minutes Asleep, Resting Heart Rate and Battery
+- Sensors Provided by the official HA Fitbit Integration which are used (directly or in a template sensor) for this card - Steps, Distance, Minutes Fairly Active, Minutes Lightly Active, Minutes Very Active, Minutes Sedentary, Sleep Efficiency, Minutes Asleep, Resting Heart Rate and Battery
   
 - Sleep Hours - Template Sensor to calculate sleep hours
   
