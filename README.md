@@ -6,13 +6,18 @@ A card to compare fitness stats using fitbit or other integrations. In this case
 
 ![scoreboard](https://github.com/satyambaba/homeassistant/assets/6833101/a3d49514-13b7-44f6-81e1-8ce6f0c73efd)
 
-Features
+1.2 Features
 - This card displays and compares key fitness stats in a concise and organized manner to keep us motivated
 - Stars are earned by comparing steps, active hours and sleep hours
 - Winner is decided based on the number of stars earned
 - Individual icons are colored based on sensor values. For example - Step icons are green if steps are greater than 10K, orange if steps are between 3K - 10K and red if steps are less than 3K
 
-1.1 YAML Code
+1.3 Steps to use
+- Install cards mentioned in 1.5
+- Create template sensors mentioned in 1.6
+- Use YAML code mention in 1.4
+  
+1.4 YAML Code for Card
 ```yaml
 type: custom:vertical-stack-in-card
 style: |
@@ -512,14 +517,14 @@ cards:
                     hold_action:
                       action: none
 ```
-1.2 Requirements
+1.5 Requirements
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
 - [Paper Buttons Row Card](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
 
-1.3 Details about Sensors
+1.6 Details about Sensors
 
-- Sensors Provided by the Fitbit Integration which are used (directly or in a template sensor) in this card - Steps, Distance, Minutes Fairly Active, Minutes Lightly Active, Minutes Very Active, Minutes Sedentary, Sleep Efficiency, Minutes Asleep, Resting Heart Rate and Battery
+- Sensors Provided by the official HA Fitbit Integration which are used (directly or in a template sensor) in this card - Steps, Distance, Minutes Fairly Active, Minutes Lightly Active, Minutes Very Active, Minutes Sedentary, Sleep Efficiency, Minutes Asleep, Resting Heart Rate and Battery
   
 - Sleep Hours - Template Sensor to calculate sleep hours
   
