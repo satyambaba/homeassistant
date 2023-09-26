@@ -504,7 +504,28 @@ cards:
                     hold_action:
                       action: none
 ```
-1.1 Requirements
+1.2 Requirements
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
 - [Paper Buttons Row Card](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
+
+1.3 Description of Sensors
+- sensor.person1_fitness_wins
+  ```yaml
+    person1_fitness_wins:
+      friendly_name: "Person1 Fitness Wins"
+      value_template: >
+        {% if (states('sensor.person1_steps') | float) >
+        (states('sensor.person2_steps') | float) %}1{% else %}0{% endif %}{%
+        if (states('sensor.person1_active_hours') | float) >
+        (states('sensor.person2_active_hours') | float) %}1{% else %}0{% endif %}{% if
+        (states('sensor.person1_sleep_hours') | float) >
+        (states('sensor.person2_sleep_hours') | float) %}1{% else %}0{% endif %}
+  ```
+- sensor.person1_fitness_score
+  ```yaml
+      person1_fitness_score:
+      friendly_name: "Person1 Fitness Score"
+      value_template: >
+        {{((states('sensor.person1_fitness_wins')[0] | int) + (states('sensor.person1_fitness_wins')[1] | int) + (states('sensor.person1_fitness_wins')[2] | int)) | int}}
+```
