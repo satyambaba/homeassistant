@@ -294,7 +294,7 @@ cards:
                 styles:
                   padding: 0px 0px 15px 0px
                 buttons:
-                  - entity: person.person1
+                  - entity: person.person2
                     name: >
                       {% if states('sensor.person1_fitness_score') <
                       states('sensor.person2_fitness_score') %}Person 2 🏆{% else
