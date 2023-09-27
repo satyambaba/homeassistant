@@ -56,8 +56,8 @@ cards:
                   - entity: person.person1
                     name: >
                       {% if states('sensor.person1_fitness_score') >
-                      states('sensor.person2_fitness_score') %}Person1 🏆{% else
-                      %}Person1{% endif %}
+                      states('sensor.person2_fitness_score') %}Person 1 🏆{% else
+                      %}Person 1{% endif %}
                     layout: icon_name
                     image: >
                         {{state_attr('person.person1','entity_picture')}}
@@ -294,11 +294,11 @@ cards:
                 styles:
                   padding: 0px 0px 15px 0px
                 buttons:
-                  - entity: sensor.active_room
+                  - entity: person.person1
                     name: >
                       {% if states('sensor.person1_fitness_score') <
-                      states('sensor.person2_fitness_score') %}Person2 🏆{% else
-                      %}Person2{% endif %}
+                      states('sensor.person2_fitness_score') %}Person 2 🏆{% else
+                      %}Person 2{% endif %}
                     layout: icon_name
                     image: >
                         {{state_attr('person.person2','entity_picture')}}
