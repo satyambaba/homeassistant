@@ -13,7 +13,7 @@ https://www.home-assistant.io/integrations/google_generative_ai_conversation?fbc
 
 **3. Create a folder "/config/www/picture/doorbell"**
 
-**4. Put below code in the config file and reboot (it is only needed when you are using 5. Method 1)**
+**4. Put below code in the config file and reboot (it is only needed when you are using Step 5, Method 1)**
 ```yaml
 downloader:
   download_dir: /config/www/picture/doorbell
