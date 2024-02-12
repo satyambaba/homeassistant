@@ -67,6 +67,7 @@ doorbell_snapshot_ai_description:
 **7. Leverage input_text.doorbell_ai_description in the automation for notification or anywhere else you want**
 
 ________________________________________________________________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________________________________________________________________
 
 # Fitness Stats Comparison Card
 A card to compare fitness stats using HA Fitbit or other integrations. In this case, I used the info provided by the official HA Fitbit integration and a custom Fitbit integration because the official HA Fitbit integration doesn't support multiple accounts. If other fitness integrations provide similar information, sensors can be modified easily.
