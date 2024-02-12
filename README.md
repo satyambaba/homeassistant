@@ -29,6 +29,7 @@ doorbell_snapshot:
         url: >-
           http://[enter your HA IP]:8123{{state_attr('image.doorbell_event_image','entity_picture')}}
         filename: visitor.jpg
+        overwrite: true
 ```
 
 **Method 2**
