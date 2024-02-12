@@ -1,24 +1,91 @@
-# Home Assistant
-I created this repository to share Home Assistant related codes
+# Using Google Generative AI Conversation Integration in HA to Analyze an Image
+<image src="https://github.com/satyambaba/homeassistant/assets/6833101/797d8a43-3cf4-4d1c-96b5-caffec4a5b11" width="50%" />
 
-# 1. Fitness Stats Comparison Card
+**Note: This integration works with any image stored locally including camera snapshots.**
+
+# Steps to follow
+
+**1. Add and configure Google Generative AI Conversation Integration in HA**
+
+https://www.home-assistant.io/integrations/google_generative_ai_conversation?fbclid=IwAR3MOTjh6NoxIa4i4NVu5s23xE_YAnc_nJ7ign8iX4ZzRAg1dAEToZfanC8
+
+**2. Create an input_text called "input_text.doorbell_ai_description"**
+
+**3. Create a folder "/config/www/picture/doorbell"**
+
+**4. Put below code in the config file and reboot (it is only needed when you are using 5. Method 1)**
+```yaml
+downloader:
+  download_dir: /config/www/picture/doorbell
+```
+
+**5. Script to save camera image to a local location (you can use either of the methods below based on the camera you have)**
+
+**Method 1**
+```yaml
+doorbell_snapshot:
+  alias: Doorbell Snapshot
+  sequence:
+    - service: downloader.download_file
+      data:
+        url: >-
+          http://[enter your HA IP]:8123{{state_attr('image.doorbell_event_image','entity_picture')}}
+        filename: visitor.jpg
+```
+
+**Method 2**
+```yaml
+doorbell_snapshot2:
+  alias: Doorbell Snapshot 2
+  sequence:
+    - service: camera.snapshot
+      target:
+        entity_id: camera.doorbell
+      data:
+        filename: /config/www/picture/doorbell/visitor.jpg
+```
+
+**6. Script to generate description using Google Generative AI.**
+```yaml
+doorbell_snapshot_ai_description:
+  alias: Doorbell Snapshot AI Description
+  sequence:
+    - service: google_generative_ai_conversation.generate_content
+      data:
+        image_filename: /config/www/picture/doorbell/visitor.jpg
+        prompt: >-
+          Very briefly describe, what do you see in this image from my doorbell camera. Your message needs to be short to be fit in a phone notification. Don't describe stationary objects or buildings.
+      response_variable: doorbell_ai_description
+    - service: input_text.set_value
+      data:
+        value: >
+          {{doorbell_ai_description['text']}}
+      target:
+        entity_id: input_text.doorbell_ai_description
+```
+
+**7. Leverage input_text.doorbell_ai_description in the automation for notification or anywhere else you want**
+
+________________________________________________________________________________________________________________________________________________________________________________________________
+
+# Fitness Stats Comparison Card
 A card to compare fitness stats using HA Fitbit or other integrations. In this case, I used the info provided by the official HA Fitbit integration and a custom Fitbit integration because the official HA Fitbit integration doesn't support multiple accounts. If other fitness integrations provide similar information, sensors can be modified easily.
 
 ![image](https://github.com/satyambaba/homeassistant/assets/6833101/40a6c69f-21e9-4ab9-bd4d-5d8d1820203f)
 
-**1.1 Features**
+**1. Features**
 - This card displays and compares key fitness stats in a concise and organized manner to keep us motivated
 - Stars are earned by comparing steps, active hours and sleep hours
 - Winner is decided based on the number of stars earned
 - Individual icons are colored based on sensor values. For example - Step icons are green if steps are greater than 10K, orange if steps are between 3K - 10K and red if steps are less than 3K
 - Even if you only have the official HA Fitbit integration, this card can be easily modified to display the stats only for one person
 
-**1.2 Steps to use**
+**2. Steps to use**
 - Install cards mentioned in 1.4
 - Create template sensors mentioned in 1.5
 - Use YAML code mentioned in 1.3
   
-**1.3 YAML Code for the Card**
+**3. YAML Code for the Card**
 ```yaml
 type: custom:vertical-stack-in-card
 style: |
@@ -518,12 +585,12 @@ cards:
                     hold_action:
                       action: none
 ```
-**1.4 Requirements**
+**4. Requirements**
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
 - [Paper Buttons Row Card](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
 
-**1.5 Details about Sensors**
+**5. Details about Sensors**
 
 - Sensors Provided by the official HA Fitbit Integration which are used (directly or in a template sensor) for this card - Steps, Distance, Minutes Fairly Active, Minutes Lightly Active, Minutes Very Active, Minutes Sedentary, Sleep Efficiency, Minutes Asleep, Resting Heart Rate and Battery
   
