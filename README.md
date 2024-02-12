@@ -45,7 +45,7 @@ doorbell_snapshot2:
         filename: /config/www/picture/doorbell/visitor.jpg
 ```
 
-**6. Script to generate description using Google Generative AI.**
+**6. Script to generate description using Google Generative AI**
 ```yaml
 doorbell_snapshot_ai_description:
   alias: Doorbell Snapshot AI Description
