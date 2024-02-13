@@ -7,7 +7,7 @@
 
 **1. Add and configure [Google Generative AI Conversation Integration](https://www.home-assistant.io/integrations/google_generative_ai_conversation?fbclid=IwAR3MOTjh6NoxIa4i4NVu5s23xE_YAnc_nJ7ign8iX4ZzRAg1dAEToZfanC8) in HA**
 
-**2. Create a text helper called "Doorbell AI Description"**
+**2. Create a Text helper called "Doorbell AI Description"**
 
 **3. Create a folder "/config/www/picture/doorbell"**
 
