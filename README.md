@@ -63,7 +63,7 @@ doorbell_snapshot_ai_description:
         entity_id: input_text.doorbell_ai_description
 ```
 
-**7. Leverage input_text.doorbell_ai_description in the automation for notification or anywhere else you want**
+**7. Leverage input_text.doorbell_ai_description entity in the automation for notification or anywhere else you want**
 
 ________________________________________________________________________________________________________________________________________________________________________________________________
 ________________________________________________________________________________________________________________________________________________________________________________________________
