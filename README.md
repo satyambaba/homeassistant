@@ -59,6 +59,7 @@ doorbell_snapshot_ai_description:
       data:
         value: >
           {{doorbell_ai_description['text']}}
+          # in case this doesn't work, you may try {{doorbell_ai_description.text}}
       target:
         entity_id: input_text.doorbell_ai_description
 ```
