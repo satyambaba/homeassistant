@@ -15,7 +15,7 @@ For example (this picture), here are the things which can be inferred in just on
 
 **2. Approach**
 
-It is much simpler than it looks. Template sensors are created for the info that are needed which contains the "content (text, [icons](https://www.emojipedia.com), numbers)" and severity (blue - info, green - a good thing, red - needs attention) 
+It is much simpler than it looks. Template sensors are created for the info that are needed which contains the "content ([icons](https://www.emojipedia.org), text and numbers)" and severity (blue - info, green - a good thing, red - needs attention) 
 
 **3. Requirements**
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
