@@ -9,7 +9,7 @@ For example (in the picture above), here are the things which can be inferred in
 - Bedroom thermostat is set to cooling
 - My washing machine is running
 - My aquarium needs my attention (I have deliberately turned off the filter, so that this can be shown)
-- My Gaming system is currently on
+- My gaming system is currently on
 - Two security cameras are on
 - Three devices are either offline or they are low on batteries.
 
