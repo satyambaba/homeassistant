@@ -16,7 +16,7 @@ For example (in the picture above), here are the things which can be inferred in
 
 **2. Approach**
 
-It is much simpler than it looks. Template sensors are created for the info that are needed which contains the "content ([icons](https://www.emojipedia.org), text and numbers)" and severity (blue - info, green - a good thing, red - needs attention) 
+It is much simpler than it looks. Template sensors are created for the info that are needed which contains the "content ([icons](https://www.emojipedia.org), text or numbers)" and severity (blue - info, green - a good thing, red - needs attention) 
 
 
 **3. Requirements**
