@@ -12,17 +12,20 @@ For example (this picture), here are the things which can be inferred in just on
 - My Gaming system is currently on
 - Two security cameras are on
 - Three devices are either offline or they are low on batteries.
-<br><br>
+
+
 **2. Approach**
 
 It is much simpler than it looks. Template sensors are created for the info that are needed which contains the "content ([icons](https://www.emojipedia.org), text and numbers)" and severity (blue - info, green - a good thing, red - needs attention) 
-<br><br>
+
+
 **3. Requirements**
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
 - [Paper Buttons Row Card](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
-<br><br>
-**4. Steps**
+
+
+**4. Steps to Follow**
 
 A. Edit your theme file and create few variables
 ```yaml
