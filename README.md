@@ -1,6 +1,7 @@
 # Notification Badges for Rooms on the HA Dashboard
 <image src="https://github.com/satyambaba/homeassistant/assets/6833101/6c48fd45-f4d4-45ab-aed0-603ce5eaeb79" width="40%" />
 
+<br><br>
 **1. Introduction**
 
 I have created a "notification" system for different rooms on my HA dashboard. It displays useful info which can indicate what's going on in a quick glance. Numbers and icons denote "what" and colors represent whether it is an "info" (blue), a good thing (green) or something that needs my attention (red). I had made it a long time ago and it proved to be very helpful at several occasions.
@@ -14,15 +15,15 @@ For example (this picture), here are the things which can be inferred in just on
 
 **2. Approach**
 
-It is much simpler than it looks. Template sensors are created for the info that are needed which contains the "content (text, icons, numbers)" and severity (blue - info, green - a good thing, red - needs attention) 
+It is much simpler than it looks. Template sensors are created for the info that are needed which contains the "content (text, [icons](https://www.emojipedia.com), numbers)" and severity (blue - info, green - a good thing, red - needs attention) 
 
-________________________________________________________________________________________________________________________________________________________________________________________________
-________________________________________________________________________________________________________________________________________________________________________________________________
-
-**4. Requirements**
+**3. Requirements**
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
 - [Paper Buttons Row Card](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
+  
+________________________________________________________________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________________________________________________________________
 
 # Using Google Generative AI Conversation Integration in HA to Analyze an Image
 <image src="https://github.com/satyambaba/homeassistant/assets/6833101/797d8a43-3cf4-4d1c-96b5-caffec4a5b11" width="40%" />
