@@ -32,6 +32,7 @@ It is much simpler than it looks. Template sensors are created for the info that
 ```
 Please don't forget to reload your theme using service: frontend.reload_themes
 
+
 2. Create a script called dummy which does nothing, it just acts as a placeholder.
 ```yaml
 dummy:
@@ -40,7 +41,9 @@ dummy:
     delay:
       milliseconds: 1
 ```
-2. CRetae template sensors for each room. Here. I'll create two sensors for the laundry room and security page for reference.
+
+
+3. Cretae template sensors for each room. Here. I'll create two sensors for the laundry room and security page for reference.
 
 For Laundry Room - Badge to denote if the washing machine is on
 ```yaml
@@ -51,6 +54,8 @@ For Laundry Room - Badge to denote if the washing machine is on
         {% else %}{% endif %}
 ```
 Plaese pay attention to 👚_N. The first part is an icon, it can also be a number, text or a dynamic template. Please note the "_N" is for neutral badges (blue). For good badges, use _G and for badges that need your attention, use _R.
+
+A good source for the icons are [emojipedia.org](https://www.emojipedia.org)
 
 For Security Page - Badge to denote how many security cameras are on + if my bird camera is off + if my doorbell is offline
 ```yaml
@@ -66,6 +71,9 @@ For Security Page - Badge to denote how many security cameras are on + if my bir
 Here you can clearly see, this can be pretty dynamic. If my bird camera is off, it will show "!" in red or if my doorbell is offline, it will show a bell icon in red. And if both of these cases are not true it will simply show the number of cameras that are on in green.
 
 
+4. Create a navigation panel.
+
+Here I am providing the code for my navigation panel. You can customize it as per your need. Please focus on the "name" and the "background" part for each room in this panel. Possibilities are endless, just use your imagination and have fun.
 ```yaml
 view_layout:
   column: 1
