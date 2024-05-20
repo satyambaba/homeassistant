@@ -46,7 +46,7 @@ dummy:
 ```
 
 
-C. Cretae template sensors for each room. Here. I'll create two sensors for the laundry room and security page for reference.
+C. Create template sensors for each room. Here. I'll create two sensors for the laundry room and security page for reference.
 
 For Laundry Room - Badge to denote if the washing machine is on
 ```yaml
