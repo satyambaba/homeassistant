@@ -27,7 +27,7 @@ It is much simpler than it looks. Template sensors are created for the info that
 
 **4. Steps to Follow**
 
-A. Edit your theme file and create few variables
+**A. Edit your theme file and create few variables**
 ```yaml
   notification-badge-green: "#149c14"
   notification-badge-red: "#ff0000"
@@ -36,7 +36,7 @@ A. Edit your theme file and create few variables
 Please don't forget to reload your theme using service: frontend.reload_themes
 
 
-B. Create a script called dummy which does nothing, it just acts as a placeholder.
+**B. Create a script called dummy which does nothing, it just acts as a placeholder.**
 ```yaml
 dummy:
   alias: Dummy
@@ -46,7 +46,7 @@ dummy:
 ```
 
 
-C. Create template sensors for each room. Here. I'll create two sensors for the laundry room and security page for reference.
+**C. Create template sensors for each room. Here. I'll create two sensors for the laundry room and security page for reference.**
 
 For Laundry Room - Badge to denote if the washing machine is on
 ```yaml
@@ -74,7 +74,7 @@ For Security Page - Badge to denote how many security cameras are on + if my bir
 Here you can clearly see, this can be pretty dynamic. If my bird camera is off, it will show "!" in red or if my doorbell is offline, it will show a bell icon in red. And if both of these cases are not true it will simply show the number of cameras that are on in green.
 
 
-D. Create a navigation panel.
+**D. Create a navigation panel.**
 
 Here I am providing the code for my navigation panel. You can customize it as per your need. Please focus on the "name" and the "background" part for each room in this panel. Possibilities are endless, just use your imagination and have fun.
 ```yaml
