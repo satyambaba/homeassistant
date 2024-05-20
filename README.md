@@ -5,7 +5,7 @@
 **1. Introduction**
 
 I have created a "notification" system for different rooms on my HA dashboard. It displays useful info which can indicate what's going on in a quick glance. Numbers and icons denote "what" and colors represent whether it is an "info" (blue), a good thing (green) or something that needs my attention (red). I had made it a long time ago and it proved to be very helpful at several occasions.
-For example (this picture), here are the things which can be inferred in just one quick glance - 
+For example (in the picture above), here are the things which can be inferred in just one quick glance - 
 - Bedroom thermostat is set to cooling
 - My washing machine is running
 - My aquarium needs my attention (I have deliberately turned off the filter, so that this can be shown)
