@@ -21,6 +21,614 @@ It is much simpler than it looks. Template sensors are created for the info that
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
 - [Paper Buttons Row Card](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
+
+**4. Steps**
+
+1. Edit your theme file and create few variables
+```yaml
+  notification-badge-green: "#149c14"
+  notification-badge-red: "#ff0000"
+  notification-badge-neutral: "#3765ab"
+```
+Please don't forget to reload your theme using service: frontend.reload_themes
+
+2. Create a script called dummy which does nothing, it just acts as a placeholder.
+```yaml
+dummy:
+  alias: Dummy
+  sequence:
+    delay:
+      milliseconds: 1
+```
+2. CRetae template sensors for each room. Here. I'll create two sensors for the laundry room and security page for reference.
+
+For Laundry Room - Badge to denote if the washing machine is on
+```yaml
+    laundry_room_notification:
+      friendly_name: "Laundry Room Notification"
+      value_template: >
+        {% if states('input_boolean.washing_machine_running') == 'on'%}👚_N
+        {% else %}{% endif %}
+```
+Plaese pay attention to 👚_N. The first part is an icon, it can also be a number, text or a dynamic template. Please note the "_N" is for neutral badges (blue). For good badges, use _G and for badges that need your attention, use _R.
+
+For Security Page - Badge to denote how many security cameras are on + if my bird camera is off + if my doorbell is offline
+```yaml
+    security_notification:
+      friendly_name: "Security Notification"
+      value_template: >
+        {% if states('switch.bird_camera_switch') in ['off','unavailable'] %}!_R
+        {% elif states('binary_sensor.doorbell_ringing') in ['unavailable'] or states('binary_sensor.doorbell_connected') == 'off' %}🔔_R
+        {% elif states('sensor.on_camera_count') | int > 0 %}
+          {{expand('group.all_cameras')|selectattr('state','in',['on'])|list|count}}_G
+        {% else %}{% endif %}
+```
+Here you can clearly see, this can be pretty dynamic. If my bird camera is off, it will show "!" in red or if my doorbell is offline, it will show a bell icon in red. And if both of these cases are not true it will simply show the number of cameras that are on in green.
+
+
+```yaml
+view_layout:
+  column: 1
+type: custom:vertical-stack-in-card
+card_mod:
+  style: |
+    ha-card{
+      background: var(--nav-background-color);
+      box-shadow: var(--nav-box-shadow);
+    }
+cards:
+  - type: custom:paper-buttons-row
+    buttons:
+      - entity_id: script.dummy
+        icon: mdi:home
+        name: |
+          {{states('sensor.home_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: |
+              {% if states('sensor.home_notification').split('_')[1] == 'R' %}
+                var(--notification-badge-red)
+              {% elif states('sensor.home_notification').split('_')[1] == 'G' %}
+                var(--notification-badge-green)
+              {% elif states('sensor.home_notification').split('_')[1] == 'N' %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/home
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:bed
+        name: |
+          {{states('sensor.bedroom_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.bedroom_notification').split('_')[1] == 'R'
+              %}
+                var(--notification-badge-red)
+              {% elif states('sensor.bedroom_notification').split('_')[1] == 'G'
+              %}
+                var(--notification-badge-green)
+              {% elif states('sensor.bedroom_notification').split('_')[1] == 'N'
+              %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/bedroom
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: hue:room-living
+        name: |
+          {{states('sensor.living_room_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.living_room_notification').split('_')[1] ==
+              'R' %}
+                var(--notification-badge-red)
+              {% elif states('sensor.living_room_notification').split('_')[1] ==
+              'G' %}
+                var(--notification-badge-green)
+              {% elif states('sensor.living_room_notification').split('_')[1] ==
+              'N' %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/living-room
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:pot-steam
+        name: |
+          {{states('sensor.kitchen_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.kitchen_notification').split('_')[1] == 'R'
+              %}
+                var(--notification-badge-red)
+              {% elif states('sensor.kitchen_notification').split('_')[1] == 'G'
+              %}
+                var(--notification-badge-green)
+              {% elif states('sensor.kitchen_notification').split('_')[1] == 'N'
+              %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/kitchen
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:silverware-variant
+        name: |
+          {{states('sensor.dining_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.dining_notification').split('_')[1] == 'R' %}
+                var(--notification-badge-red)
+              {% elif states('sensor.dining_notification').split('_')[1] == 'G'
+              %}
+                var(--notification-badge-green)
+              {% elif states('sensor.dining_notification').split('_')[1] == 'N'
+              %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/dining
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:hail
+        name: |
+          {{states('sensor.guest_room_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.guest_room_notification').split('_')[1] ==
+              'R' %}
+                var(--notification-badge-red)
+              {% elif states('sensor.guest_room_notification').split('_')[1] ==
+              'G' %}
+                var(--notification-badge-green)
+              {% elif states('sensor.guest_room_notification').split('_')[1] ==
+              'N' %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/guest-room
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:washing-machine
+        name: |
+          {{states('sensor.laundry_room_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 3px solid
+          icon:
+            '--mdc-icon-size': 30px
+            transform: rotateY(180deg)
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.laundry_room_notification').split('_')[1] == 'R'
+              %}
+                var(--notification-badge-red)
+              {% elif states('sensor.laundry_room_notification').split('_')[1] == 'G'
+              %}
+                var(--notification-badge-green)
+              {% elif states('sensor.laundry_room_notification').split('_')[1] == 'N'
+              %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/laundry-room
+        hold_action:
+          action: none
+  - type: divider
+    style:
+      height: 0px
+      background-color: var(--nav-color)
+  - type: custom:paper-buttons-row
+    buttons:
+      - entity_id: script.dummy
+        icon: mdi:fish
+        name: |
+          {{states('sensor.aquarium_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.aquarium_notification').split('_')[1] == 'R'
+              %}
+                var(--notification-badge-red)
+              {% elif states('sensor.aquarium_notification').split('_')[1] ==
+              'G' %}
+                var(--notification-badge-green)
+              {% elif states('sensor.aquarium_notification').split('_')[1] ==
+              'N' %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/aquarium
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:television-speaker
+        name: |
+          {{states('sensor.entertainment_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.entertainment_notification').split('_')[1] ==
+              'R' %}
+                var(--notification-badge-red)
+              {% elif states('sensor.entertainment_notification').split('_')[1]
+              == 'G' %}
+                var(--notification-badge-green)
+              {% elif states('sensor.entertainment_notification').split('_')[1]
+              == 'N' %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/entertainment
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:shield-home
+        name: |
+          {{states('sensor.security_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.security_notification').split('_')[1] == 'R'
+              %}
+                var(--notification-badge-red)
+              {% elif states('sensor.security_notification').split('_')[1] ==
+              'G' %}
+                var(--notification-badge-green)
+              {% elif states('sensor.security_notification').split('_')[1] ==
+              'N' %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/security
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:heart-pulse
+        name: |
+          {{states('sensor.health_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.health_notification').split('_')[1] == 'R' %}
+                var(--notification-badge-red)
+              {% elif states('sensor.health_notification').split('_')[1] == 'G'
+              %}
+                var(--notification-badge-green)
+              {% elif states('sensor.health_notification').split('_')[1] == 'N'
+              %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/health
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:robot
+        name: |
+          {{states('sensor.tools_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.tools_notification').split('_')[1] == 'R' %}
+                var(--notification-badge-red)
+              {% elif states('sensor.tools_notification').split('_')[1] == 'G'
+              %}
+                var(--notification-badge-green)
+              {% elif states('sensor.tools_notification').split('_')[1] == 'N'
+              %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/tools
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:chart-bar
+        name: |
+          {{states('sensor.info_hub_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.info_hub_notification').split('_')[1] == 'R'
+              %}
+                var(--notification-badge-red)
+              {% elif states('sensor.info_hub_notification').split('_')[1] ==
+              'G' %}
+                var(--notification-badge-green)
+              {% elif states('sensor.info_hub_notification').split('_')[1] ==
+              'N' %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/info-hub
+        hold_action:
+          action: none
+      - entity_id: script.dummy
+        icon: mdi:head-cog
+        name: |
+          {{states('sensor.system_info_notification').split('_')[0]}}
+        layout: icon|name
+        style:
+          button:
+            font-size: 12px
+            padding: 7px 0px 7px 0px
+            color: var(--nav-color)
+            border-bottom: 0px solid
+          icon:
+            '--mdc-icon-size': 30px
+          name:
+            color: white
+            font-weight: 1000
+            margin-bottom: 10px
+            margin-left: '-15px'
+            background: >
+              {% if states('sensor.system_info_notification').split('_')[1] ==
+              'R' %}
+                var(--notification-badge-red)
+              {% elif states('sensor.system_info_notification').split('_')[1] ==
+              'G' %}
+                var(--notification-badge-green)
+              {% elif states('sensor.system_info_notification').split('_')[1] ==
+              'N' %}
+                var(--notification-badge-neutral)
+              {% else %} {% endif %}
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            z-index: 1
+            padding: 2px 2px 2px 3px
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-home/system-info
+        hold_action:
+          action: none
+```
+
+
   
 ________________________________________________________________________________________________________________________________________________________________________________________________
 ________________________________________________________________________________________________________________________________________________________________________________________________
