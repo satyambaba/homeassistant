@@ -56,7 +56,7 @@ For Laundry Room - Badge to denote if the washing machine is on
         {% if states('input_boolean.washing_machine_running') == 'on'%}👚_N
         {% else %}{% endif %}
 ```
-Plaese pay attention to 👚_N. The first part is an icon, it can also be a number, text or a dynamic template. Please note the "_N" is for neutral badges (blue). For good badges, use _G and for badges that need your attention, use _R.
+Plaese pay attention to 👚_N. The first part is an icon, it can also be a number, a text or a dynamic template. Please note the "_N" is for neutral badges (blue). For good badges, use _G and for badges that need your attention, use _R.
 
 A good source for the icons are [emojipedia.org](https://www.emojipedia.org)
 
