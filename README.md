@@ -71,7 +71,7 @@ For Security Page - Badge to denote how many security cameras are on + if my bir
           {{expand('group.all_cameras')|selectattr('state','in',['on'])|list|count}}_G
         {% else %}{% endif %}
 ```
-Here you can clearly see, this can be pretty dynamic. If my bird camera is off, it will show "!" in red or if my doorbell is offline, it will show a bell icon in red. And if both of these cases are not true it will simply show the number of cameras that are on in green.
+Here you can clearly see, this can be pretty dynamic. If my bird camera is off, it will show "!" in red or if my doorbell is offline, it will show a bell icon in red. If both of these cases are not true it will simply show the number of cameras that are on in green. And, if none of these conditions are true, it will show nothing.
 
 
 **D. Create a navigation panel.**
