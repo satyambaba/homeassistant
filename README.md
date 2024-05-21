@@ -1,5 +1,5 @@
 # Notification Badges for Rooms on the HA Dashboard
-<image src="https://github.com/satyambaba/homeassistant/assets/6833101/6c48fd45-f4d4-45ab-aed0-603ce5eaeb79" width="400" />
+<image src="https://github.com/satyambaba/homeassistant/assets/6833101/6c48fd45-f4d4-45ab-aed0-603ce5eaeb79" width="500" />
 
 <br><br>
 **1. Introduction**
