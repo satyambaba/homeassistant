@@ -645,7 +645,7 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________________________________________________________________________________
 
 # Using Google Generative AI Conversation Integration in HA to Analyze an Image
-<image src="https://github.com/satyambaba/homeassistant/assets/6833101/797d8a43-3cf4-4d1c-96b5-caffec4a5b11" width="40%" />
+<image src="https://github.com/satyambaba/homeassistant/assets/6833101/797d8a43-3cf4-4d1c-96b5-caffec4a5b11" width="400" />
 
 **Note: This integration works with any image stored locally including camera snapshots.**
 
